@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="sec_limit_intro" label="sec_limit_intro">
+  <title>An Introduction To Limits</title>
+  
+    <p>
+      Consider the function <m>y = \frac{\sin(x) }{x}</m>.
+      When <m>x</m> is near the value 1, what value (if any)
+      is <m>y</m> near?
+    </p>
+
+    <p>
+      While our question is not precisely formed
+      (what constitutes <q>near the value 1</q>?),
+      the answer does not seem difficult to find.
+      One might think first to look at a graph of this function to approximate the appropriate
+      <m>y</m> values.
+      Consider <xref ref="fig_zoom_sinx_over_x"/>,
+      where <m>y = \frac{\sin(x) }{x}</m> is graphed.
+      For values of <m>x</m> near 1, it seems that <m>y</m> takes on values near <m>0.85</m>.
+      In fact, when <m>x=1</m>, then <m>y=\frac{\sin(1) }{1} \approx 0.84</m>,
+      so it makes sense that when <m>x</m> is <q>near</q>
+      1, <m>y</m> will be <q>near</q> <m>0.84</m>.
+    </p>
+
+    <sidebyside widths="47% 47%" margins="0%" valign="bottom">
+      <figure xml:id="fig_sinx_over_x_full">
+        <caption><m>\sin(x)/x</m></caption>
+        <image>
+          <description>
+            <p>
+              Graph of <m>\sin(x)/x</m> showing the domain and range of  
+              <m>-7</m> to <m>7</m> and <m>0</m> to 
+              <m>1</m> respectively. The <m>x</m> intercepts are at 
+              <m>x=-2\pi, -\pi, \pi</m>, and <m>2\pi</m>, and a <m>y</m> intercept is at <m>y = 1</m>. 
+              The function has a downward curve for <m>-\pi \lt x \lt \pi</m> and an 
+              upward curve for <m>-2\pi \gt x \lt -\pi</m>, and 
+              <m>\pi \gt x \lt 2\pi</m>. The graph is undefined for <m>x = 0</m>.
+            </p>
+          </description>
+          <shortdescription>
+            Graph of sin(x)/x, shows values for the domain -7 &lt;=x &lt;=7,
+            undefined at x = 0. 
+          </shortdescription>
+          <latex-image label="img_sinx_over_x_full">
+            \begin{tikzpicture}[
+              declare function = {func(\x) = (\x != 0) * (sin(x*180/pi)/x) + (\x == 0) * (1);}
+            ]
+              \begin{axis}[
+                ymin=-0.25,
+                ymax=1.2,
+                xmin=-7,
+                xmax=7,
+              ]
+                \addplot+[infinite,domain=-7:7,samples=50] {func(x)};
+                \addplot[hollowdot] coordinates {(0,1)};
+              \end{axis}
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+      </figure>
+
+      <figure xml:id="fig_zoom_sinx_over_x">
+        <caption><m>\sin(x)/x</m> near <m>x=1</m></caption>
+        <!-- START figures/sinx_over_x_1.tex -->
+        <image>
+          <description>
+            <p>
+              Graph of <m>\sin(x)/x</m> zoomed in on values where <m>x</m> is near <m>1</m>. The 
+              domain of the graph is <m>0.5</m> to <m>1.5</m>. 
+              The graph has only a slight downward curve. It shows that for <m>x = 1</m>, 
+              <m>\sin(x)/x</m> is approx. <m>0.84</m>
+            </p>
+          </description>
+          <shortdescription> 
+            Graph of sin(x)/x zoomed in on values where x is near 1. Shows that for x = 1, 
+            sin(x)/x is approx. 0.84.
+          </shortdescription>
+          <latex-image label="img_zoom_sinx_over_x">
+            \begin{tikzpicture}
+              \begin{axis}[
+                xmin=.3,
+                xmax=1.6,
+                ymin=.4,
+                ymax=1.1,
+                xtick={0.5,1,1.5},
+                ytick={0.6,0.8,1},
+                xdiscontinuity,
+                ydiscontinuity,
+                grid=both,
+              ]
+                \addplot+[infinite,domain=0.5:1.5] {sin(x*180/pi)/x};
+              \end{axis}
+            \end{tikzpicture}
+          </latex-image>
+        </image>
+        <!-- figures/sinx_over_x_1.tex END -->
+      </figure>
+    </sidebyside>
+
+  <exercises>
+    <subexercises xml:id="TaC-limit-intro">
+      <title>Terms and Concepts</title>
+
+      <exercise label="TaC-limit-intro-1">
+        <webwork xml:id="webwork-TaC-limit-intro-1">
+          <statement>
+            <p>
+              In your own words, what does it mean to
+              <q>find the limit of <m>f(x)</m> as <m>x</m> approaches 3</q>?
+            </p>
+
+            <p>
+              <var form="essay"/>
+            </p>
+          </statement>
+        </webwork>
+      </exercise>
+
+      <exercise label="TaC-limit-intro-2">
+        <webwork xml:id="webwork-TaC-limit-intro-2">
+          <pg-code>
+            $answer = "an indeterminate form";
+            $undefined = "an undefined expression";
+            Context()-&gt;strings-&gt;add(
+              $answer =&gt; {},
+              indeterminate =&gt; {alias =&gt; $answer},
+              $undefined =&gt; {},
+              undefined =&gt; {alias =&gt; $undefined}
+            );
+            $evaluator = Compute($answer)-&gt;cmp()-&gt;withPostFilter(
+              AnswerHints(
+                [Compute("undefined")] =&gt; "Yes, but there is a more specific answer."
+              )
+            );
+          </pg-code>
+          <statement>
+            <p>
+              An expression of the form <m>\frac{0}{0}</m> is called <var evaluator="$evaluator" name="$answer" width="13"/>.
+            </p>
+          </statement>
+        </webwork>
+      </exercise>
+
+      <exercise label="TaC-limit-intro-3">
+        <webwork xml:id="webwork-TaC-limit-intro-3">
+          <pg-code>
+            $limitequalsvalue = PopUp(['?','True','False'],2);
+          </pg-code>
+          <statement>
+            <p>
+              <var name="$limitequalsvalue" form="popup"/>
+              The limit of <m>f(x)</m> as <m>x</m> approaches <m>5</m> is <m>f(5)</m>.
+            </p>
+          </statement>
+          <solution>
+            <p>
+              False: the limit considers values of <m>x</m> <em>near</em> to <m>5</m>,
+              but not <em>equal</em> to <m>5</m>.
+            </p>
+          </solution>
+        </webwork>
+      </exercise>
+
+      <exercise label="TaC-limit-intro-4">
+        <webwork xml:id="webwork-TaC-limit-intro-4">
+          <statement>
+            <p>
+              Describe three situations where <m>\lim\limits_{x\to c}f(x)</m> does not exist.
+            </p>
+            <p>
+              <var form="essay"/>
+            </p>
+          </statement>
+          <solution>
+            <p>
+              The function may approach different values from the left and right,
+              the function may grow without bound,
+              or the function might oscillate.
+            </p>
+          </solution>
+        </webwork>
+      </exercise>
+
+      <exercise label="TaC-limit-intro-5">
+        <webwork xml:id="webwork-TaC-limit-intro-5">
+          <statement>
+            <p>
+              In your own words, what is a difference quotient?
+            </p>
+            <p>
+              <var form="essay"/>
+            </p>
+          </statement>
+        </webwork>
+      </exercise>
+
+      <exercise label="TaC-limit-intro-6">
+        <webwork xml:id="webwork-TaC-limit-intro-6">
+          <statement>
+            <p>
+              When <m>x</m> is near <m>0</m>,
+              <m>\dfrac{\sin x}{x}</m> is near what value?
+            </p>
+            <p>
+              <var name="1" width="10"/>
+            </p>
+          </statement>
+          <solution>
+            <p>
+              Try values of <m>x</m> close to <m>0</m>, such as <m>0.0001</m>.
+              A calculator reveals that <m>\dfrac{\sin 0.0001}{0.0001}\approx0.999999998\ldots</m>.
+              This is near <m>1</m>.
+            </p>
+          </solution>
+        </webwork>
+      </exercise>
+    </subexercises>
+  </exercises>
+</section>
